@@ -6,8 +6,22 @@ var io = require('socket.io')(http);
 
 app.use(express.static(__dirname + '/public'));
 
-io.on('connection', function () {
+io.on('connection', function (socket) {
     console.log('User connected via socket.io');
+
+    socket.on('message', function (hovnocuc) {
+        console.log('Message received: ' + hovnocuc.text);
+
+        // toto posiela spravu vsetkym, okrem odosielatela
+        // socket.broadcast.emit('message', hovnocuc);
+
+        // toto aj odosielatovi
+        io.emit('message', hovnocuc);
+    });
+
+    socket.emit('message', {
+        text: 'Welcome to the chat application!'
+    });
 });
 
 http.listen(PORT, function () {
