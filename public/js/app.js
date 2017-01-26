@@ -5,9 +5,10 @@ socket.on('connect', function () {
 });
 
 socket.on('message', function (hovnocuc) {
+    var momentTimeStamp = moment.utc(hovnocuc.timestamp);
     console.log('New message: ' + hovnocuc.text);
 
-    jQuery('.messages').append('<p>' + hovnocuc.text + '</p>');
+    jQuery('.messages').append('<p><strong>' + momentTimeStamp.local().format('h:mm a') + '</strong>: ' +  hovnocuc.text + '</p>');
 });
 
 // handles submitting of new message
